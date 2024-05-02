@@ -1,12 +1,14 @@
 import os
 from datetime import datetime
 
+from lib.io_utils import load_yaml
+
 credentials = os.path.join(os.path.dirname(__file__), "..", "credentials.yml")
 
 data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
 metadatas_dir = os.path.join(os.path.dirname(__file__), "..", "metadatas")
 output_dir = os.path.join(os.path.dirname(__file__), "..", "output")
-
+API_NAKALA_KEY = load_yaml(credentials)["API_NAKALA_KEY"]
 
 NAKALA_ROUTES = {
     "production": {
