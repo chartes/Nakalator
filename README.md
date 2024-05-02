@@ -70,8 +70,14 @@ de clé d'API Nakala (Création d'un compte Human-id et demande d'accès à Naka
 > [!TIP]
 > Prévoyez un plan de nommage pour les images en amont de l'envoi, celui-ci déterminera l'ordre des images dans Nakala.
 
-3. Créer et compléter le fichier `metadata_{nom_du_projet}.yml` (vous pouvez vous inspirer du fichier `metadata_example.yml`)
+3. Créer et compléter le fichier `metadata_{nom_du_projet}.yml` (vous pouvez vous inspirer du fichier [`metadata_example.yml`](https://github.com/chartes/Nakalator/blob/master/metadatas/metadata_example.yml))
 dans le dossier `metadatas/` qui rassemble les métadonées du lot d'image à envoyer.
+
+> [!TIP]
+> Pour plus d'informations sur les métadonnées Nakala : [documentation Nakala](https://documentation.huma-num.fr/nakala-guide-de-description/).
+
+> [!TIP]
+> Une fois la donnée créée il est toujours possible de modifier ou d'ajouter les métadonnées dans l'interface Nakala.
 
 4. Enfin vous pouvez lancer le CLI avec la commande suivante et répondre aux instructions :
 
