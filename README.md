@@ -67,7 +67,8 @@ la clé d'API Nakala correspondant a votre compte utilisateur Nakala. Si vous ne
 de clé d'API Nakala (Création d'un compte Human-id et demande d'accès à Nakala requis), vous pouvez utiliser une clé d'API de test sur https://test.nakala.fr/ (cette clé sera utilisable uniquement sur l'instance Nakala de test).
 
 2. Déposer les images à envoyer dans un sous-dossier du dossier `data/`. Une donnée == un dossier == un lot d'images.
-> :warning: Prévoyez un plan de nommage pour les images en amont de l'envoi, celui-ci déterminera l'ordre des images dans Nakala..
+> [!TIP]
+> Prévoyez un plan de nommage pour les images en amont de l'envoi, celui-ci déterminera l'ordre des images dans Nakala.
 
 3. Créer et compléter le fichier `metadata_{nom_du_projet}.yml` (vous pouvez vous inspirer du fichier `metadata_example.yml`)
 dans le dossier `metadatas/` qui rassemble les métadonées du lot d'image à envoyer.
@@ -90,13 +91,19 @@ Deux méthodes d'envoi sont disponibles :
     - vous pouvez ajouter des fichiers supplémentaires (si nécéssaire)
     - vous pouvez utiliser un tri pour remettre les images dans l'ordre (Cf. [FAQ](#faq) pour plus d'informations)
     - vous pouvez passer en mode "publié" (au lieu de privé) pour que les données soient visibles par tous.
-    > :warning: Le nombre de données en mode "privé" est limité sur Nakala, pensez à publier ces données au fur et à mesure.
+      
+> [!WARNING]
+> Le nombre de données en mode "privé" est limité sur Nakala, pensez à publier ces données au fur et à mesure.
+
+> [!WARNING]
+> Une fois la donnée "publié" dans Nakala, il n'est plus possible de la supprimer (contacter le support de Nakala).
 
 ### Performances
 
 Pour les tests de performances nous avons constitué 3 lots d'images (**subsets**) de 100, 500 et 1000 images.
 
-> :info: ces résultats sont obtenus sur une machine avec un processeur Apple M1 pro et 16Go de RAM
+> [!NOTE]
+> ces résultats sont obtenus sur une machine avec un processeur Apple M1 pro et 16Go de RAM
 et peuvent varier en fonction de la configuration de votre machine.
 
 Les résultats obtenus sont les suivants :
@@ -112,8 +119,8 @@ Les résultats obtenus sont les suivants :
 
 ### FAQ
 
-- **Comment faire pour remettre les images dans l'ordre dans Nakala ?**
+- *Comment faire pour remettre les images dans l'ordre dans Nakala ?*
 
-    Vous pouvez vous rendre sur la page de la donnée créer dans Nakala : utiliser l'icône de tri et sauvegarder les modifications.
+    > Vous pouvez vous rendre sur la page de la donnée créer dans Nakala : utiliser l'icône de tri et sauvegarder les modifications.
     
     ![capture-nakala](./documentation/capture_nakala_tri.png)
