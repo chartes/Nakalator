@@ -3,13 +3,17 @@
 
 Nakalator est un CLI qui permet l'envoi des images sur un dépôt Nakala (donnée uniquement).
 
-Il est peut-être conçu comme une alternative à l'outil [Mynkl](https://mynkl.huma-num.fr/).
+Il peut-être conçu comme une alternative à l'outil [Mynkl](https://mynkl.huma-num.fr/), les avantages de Nakalator sont les suivants :
+
+- **informations** : permet de tracer le nombre d'images envoyées sur Nakala en cours d'envoi ; 
+- **Performances** : suivant le type de machine utilisé et les lots d'images, Nakalator réduit le temps d'envoi des images sur Nakala (Cf. [Performances](#performances)) ;
 
 
 ## Sommaire
 
 - [Installation du CLI](#installation-du-cli)
 - [Marche à suivre](#marche-à-suivre)
+- [Performances](#performances)
 - [FAQ](#faq)
 
 ### Installation du CLI
@@ -81,7 +85,25 @@ python3 nakalator.py --hard
     - vous pouvez ajouter des fichiers supplémentaires (si nécéssaire)
     - vous pouvez utiliser un tri pour remettre les images dans l'ordre
     - vous pouvez passer en mode "publié" (au lieu de privé) pour que les données soient visibles par tous (important, car 
-   le nombre de données en "privé" est limité).
+   le nombre de données en "privé" est limité sur Nakala).
+
+### Performances
+
+Pour les tests de performances nous avons constitué 3 lots d'images (**subsets**) de 100, 500 et 1000 images.
+
+*Pour information* : ces résultats sont obtenus sur une machine avec un processeur Apple M1 pro et 16Go de RAM
+et peuvent varier en fonction de la configuration de votre machine.
+
+Les résultats sont les suivants :
+
+| Total images | Mynkl (seconds) | Nakalator - "soft" method (seconds) | Nakalator - "hard" method (seconds)|
+|--------------|-----------------|----------------------------|---------------------------|
+| 100          | 25.40           | 20.26                      | 10.23                     |
+| 500          | 48.48           | 28.37                      | 17.11                     |
+| 1000         | 211.2           | 136.11                     | 76.30                     |
+
+
+![capture-nakala](./documentation/benchmark_methods.png)
 
 ### FAQ
 

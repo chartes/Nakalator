@@ -1,7 +1,7 @@
-name: "bellelay"
+name: "endp"
 
 data:
-  path: "/Users/lucaterre/Documents/pro/tools/encimages2nakala/data/bellelay" # absolute path to the data directory
+  path: "/Users/lucaterre/Documents/pro/ENC-tools/Nakalator/data/bellelay" # absolute path to the data directory
   type: "jpeg"
   status: "pending" # "pending" or "published"
 

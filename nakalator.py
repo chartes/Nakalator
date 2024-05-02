@@ -11,7 +11,7 @@ from typing import Union
 import sys
 from dataclasses import dataclass, asdict
 import datetime
-from time import sleep
+from time import sleep, time
 from concurrent.futures import ThreadPoolExecutor
 import backoff
 from requests.exceptions import RequestException
@@ -78,7 +78,11 @@ def post(endpoint, data, files=None):
         })
 
     if response.status_code not in [200, 201]:
-        typer.echo(colored("🔁 \tretrying with backoff...", "blue"))
+        if response.status_code == 401:
+            typer.echo(colored("🔴\tUnauthorized. Please check your credentials", "red"))
+            sys.exit()
+        else:
+            typer.echo(colored("🔁 \tretrying with backoff...", "blue"))
     return json.loads(response.text)
 
 
@@ -219,6 +223,7 @@ def main(method: str = typer.Option("soft", "--method", "-m", help="Method to se
     if confirm:
         typer.echo(f"Start sending data from {os.path.basename(dir_images)}/ to Nakala {environment}...")
         typer.echo(f"Add files...")
+        start = time()
         sha1s, results_objects, empty_sha1s = work(images, method, api_url)
 
         sleep(0.5)
@@ -235,7 +240,8 @@ def main(method: str = typer.Option("soft", "--method", "-m", help="Method to se
         # save report
         # sorted results_objects by original_name
         NakalaItem.to_csv(metadata_config['name'], sorted(results_objects, key=lambda x: x.original_name))
-
+        end = time()
+        typer.echo(colored(f"⏱️\tTotal time: {end - start} seconds", "blue"))
         run_tests = True
         files = None
         try:
