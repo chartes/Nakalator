@@ -111,11 +111,10 @@ def intialize(url, files, metadata_config):
         sys.exit()
 
 
-
-
 def create_file_cur(image):
     file_open = open(image, "rb")
     return {"file": file_open}
+
 
 def add_file(url, files):
     image = create_file_cur(files)

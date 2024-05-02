@@ -1,12 +1,15 @@
 # Nakalator CLI
 
+![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue)
 
-Nakalator est un CLI qui permet l'envoi des images sur un dépôt Nakala (donnée uniquement).
+Nakalator est un CLI qui permet l'envoi d'images par lot sur un dépôt Nakala (**donnée uniquement**).
 
-Il peut-être conçu comme une alternative à l'outil [Mynkl](https://mynkl.huma-num.fr/), les avantages de Nakalator sont les suivants :
+Il peut-être conçu comme une alternative à l'outil [Mynkl](https://mynkl.huma-num.fr/). 
 
-- **informations** : permet de tracer le nombre d'images envoyées sur Nakala en cours d'envoi ; 
-- **Performances** : suivant le type de machine utilisé et les lots d'images, Nakalator réduit le temps d'envoi des images sur Nakala (Cf. [Performances](#performances)) ;
+Les avantages de Nakalator sont les suivants :
+
+- **Retour utilisateur** : permet de tracer le nombre d'images envoyées sur Nakala en cours d'envoi ; 
+- **Performances** : suivant le type de machine utilisé et la quantité d'images, Nakalator réduit le temps d'envoi des images sur Nakala (Cf. Benchmark dans [Performances](#performances)).
 
 
 ## Sommaire
@@ -61,40 +64,42 @@ python3 nakalator.py --help
 
 1. Éditer le fichier `credentials.yml` avec
 la clé d'API Nakala correspondant a votre compte utilisateur Nakala. Si vous ne disposez pas
-de clé d'API Nakala, vous pouvez utiliser une clé d'API de test sur https://test.nakala.fr/  (instance de test uniquement).
+de clé d'API Nakala (Création d'un compte Human-id et demande d'accès à Nakala requis), vous pouvez utiliser une clé d'API de test sur https://test.nakala.fr/ (cette clé sera utilisable uniquement sur l'instance Nakala de test).
 
-2. Déposer les images à envoyer dans un sous-dossier du dossier `data/`. Une donnée == un dossier == un lot d'images. 
-Attention au nommage des images qui déterminera l'ordre des images dans Nakala.
+2. Déposer les images à envoyer dans un sous-dossier du dossier `data/`. Une donnée == un dossier == un lot d'images.
+> :warning: Prévoyez un plan de nommage pour les images en amont de l'envoi, celui-ci déterminera l'ordre des images dans Nakala..
 
 3. Créer et compléter le fichier `metadata_{nom_du_projet}.yml` (vous pouvez vous inspirer du fichier `metadata_example.yml`)
 dans le dossier `metadatas/` qui rassemble les métadonées du lot d'image à envoyer.
 
-4. Enfin vous pouvez lancer le CLI avec la commande suivante et suiver les instructions :
+4. Enfin vous pouvez lancer le CLI avec la commande suivante et répondre aux instructions :
 
 ```bash
 python3 nakalator.py --hard
 ```
 
+Deux méthodes d'envoi sont disponibles :
+
 - La méthode `--soft` : cette méthode utilise un algorithme classique qui envoi les images une par une sur Nakala.
 - La méthode `--hard` : cette méthode utilise un algorithme qui envoi les images en parallèle sur Nakala.
 
-5. A la fin du processus, un fichier `report_{nom_du_projet}.csv` sera généré dans le dossier `output/` contenant le *mapping* des images envoyés sur Nakala et des identifiants (DOI et sha1) (attention à bien archiver ce fichier qui sera utilise pour la génération des manifestes IIIF).
+5. A la fin du processus, un fichier `report_{nom_du_projet}.csv` sera généré dans le dossier `output/` contenant le *mapping* des images envoyés sur Nakala et des identifiants (DOI et sha1) (attention à bien archiver ce fichier qui sera utilisé pour la génération des manifestes IIIF).
 
-6. Si tout semble OK, vous pouvez passer dans l'interface Nakala pour vérifier que les images ont bien été envoyées : 
+6. A la fin du processus, vous pouvez passer dans l'interface Nakala pour vérifier que les images ont bien été envoyées : 
     - vous pouvez modifier manuellement les métadonnées des données
     - vous pouvez ajouter des fichiers supplémentaires (si nécéssaire)
-    - vous pouvez utiliser un tri pour remettre les images dans l'ordre
-    - vous pouvez passer en mode "publié" (au lieu de privé) pour que les données soient visibles par tous (important, car 
-   le nombre de données en "privé" est limité sur Nakala).
+    - vous pouvez utiliser un tri pour remettre les images dans l'ordre (Cf. [FAQ](#faq) pour plus d'informations)
+    - vous pouvez passer en mode "publié" (au lieu de privé) pour que les données soient visibles par tous.
+    > :warning: Le nombre de données en mode "privé" est limité sur Nakala, pensez à publier ces données au fur et à mesure.
 
 ### Performances
 
 Pour les tests de performances nous avons constitué 3 lots d'images (**subsets**) de 100, 500 et 1000 images.
 
-*Pour information* : ces résultats sont obtenus sur une machine avec un processeur Apple M1 pro et 16Go de RAM
+> :info: ces résultats sont obtenus sur une machine avec un processeur Apple M1 pro et 16Go de RAM
 et peuvent varier en fonction de la configuration de votre machine.
 
-Les résultats sont les suivants :
+Les résultats obtenus sont les suivants :
 
 | Total images | Mynkl (seconds) | Nakalator - "soft" method (seconds) | Nakalator - "hard" method (seconds)|
 |--------------|-----------------|----------------------------|---------------------------|
@@ -107,8 +112,8 @@ Les résultats sont les suivants :
 
 ### FAQ
 
-- **Comment je fais pour remettre les images dans l'ordre dans Nakala ?**
+- **Comment faire pour remettre les images dans l'ordre dans Nakala ?**
 
-    Vous rendre sur la page de la donnée dans Nakala, utilisé l'icone de tri et sauvegarder les modifications.
+    Vous pouvez vous rendre sur la page de la donnée créer dans Nakala : utiliser l'icône de tri et sauvegarder les modifications.
     
     ![capture-nakala](./documentation/capture_nakala_tri.png)
