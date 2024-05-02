@@ -1,0 +1,39 @@
+name: "bellelay"
+
+data:
+  path: "/Users/lucaterre/Documents/pro/tools/encimages2nakala/data/bellelay" # absolute path to the data directory
+  type: "jpeg"
+  status: "pending" # "pending" or "published"
+
+
+collectionsIds: "" # collection DOI or '' if not linked in a collection
+
+metadata:
+  # strictly required metadata:
+  http://nakala.fr/terms#title:
+    value : "Images du graduel de Bellelay"
+    lang : "fr"
+    typeUri: "http://www.w3.org/2001/XMLSchema#string"
+  http://purl.org/dc/terms/description:
+    value: "Le graduel de Bellelay est l'un des premiers livres liturgiques notés de l'ordre des Prémontrés. Il contient tout le répertoire des messes et des offices pour le cycle liturgique de l'année, plus quelques ajouts marginaux (compositions musicales, donation)."
+    lang: "fr"
+    typeUri: "http://www.w3.org/2001/XMLSchema#string"
+
+  # ... add more metadata if needed, for example:
+  # http://purl.org/dc/terms/creator:
+  # http://purl.org/dc/terms/contributor:
+  # http://purl.org/dc/terms/language:
+  # http://purl.org/dc/terms/relation:
+  # http://purl.org/dc/terms/rightsHolder:
+  # http://purl.org/dc/terms/spatial:
+  # http://purl.org/dc/terms/available:
+  # http://purl.org/dc/terms/modified:
+  # http://purl.org/dc/terms/rights:
+  # http://purl.org/dc/terms/isVersionOf:
+  # http://purl.org/dc/terms/format:
+  # http://purl.org/dc/terms/bibliographicCitation:
+  # http://purl.org/dc/terms/abstract:
+  # http://purl.org/dc/terms/source:
+  # http://purl.org/dc/terms/subject:
+  # http://purl.org/dc/terms/medium:
+  # ...
