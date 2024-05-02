@@ -74,7 +74,7 @@ python3 nakalator.py --hard
 - La méthode `--soft` : cette méthode utilise un algorithme classique qui envoi les images une par une sur Nakala.
 - La méthode `--hard` : cette méthode utilise un algorithme qui envoi les images en parallèle sur Nakala.
 
-5. A la fin du processus, un fichier `report_{nom_du_projet}.csv` sera généré dans le dossier `reports/` contenant le *mapping* des images envoyés sur Nakala et des identifiants (DOI et sha1) (attention à bien archiver ce fichier qui sera utilise pour la génération des manifestes IIIF).
+5. A la fin du processus, un fichier `report_{nom_du_projet}.csv` sera généré dans le dossier `output/` contenant le *mapping* des images envoyés sur Nakala et des identifiants (DOI et sha1) (attention à bien archiver ce fichier qui sera utilise pour la génération des manifestes IIIF).
 
 6. Si tout semble OK, vous pouvez passer dans l'interface Nakala pour vérifier que les images ont bien été envoyées : 
     - vous pouvez modifier manuellement les métadonnées des données
