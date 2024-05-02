@@ -111,18 +111,20 @@ def intialize(url, files, metadata_config):
         sys.exit()
 
 
-def add_file(url, files):
-    handle_sha1 = post(endpoint=f"{url}/datas/uploads", data=None, files=files)
-    try:
-        handle_sha1['sha1']
-    except:
-        return {}
-    return handle_sha1
 
 
 def create_file_cur(image):
     file_open = open(image, "rb")
     return {"file": file_open}
+
+def add_file(url, files):
+    image = create_file_cur(files)
+    handle_sha1 = post(endpoint=f"{url}/datas/uploads", data=None, files=image)
+    try:
+        handle_sha1['sha1']
+    except:
+        return {}
+    return handle_sha1
 
 
 def process(components, images, api_url, method, progress):
@@ -144,7 +146,7 @@ def process(components, images, api_url, method, progress):
 
 
 def work(images, method, api_url):
-    images_prepared = [create_file_cur(image) for image in images]
+    images_prepared = [image for image in images]
 
     def process_images(images_to_process, accumulated_results=None, accumulated_sha1s=None,
                        accumulated_empty_sha1s=None):
@@ -179,7 +181,7 @@ def work(images, method, api_url):
                 f"⌛\tRetry for {len(empty_sha1s)} failed uploads. Please wait 5 seconds before started new loop...",
                 "yellow"))
             sleep(5)
-            retry_images = [create_file_cur(image) for image in empty_sha1s]
+            retry_images = [image for image in empty_sha1s]
             process_images(retry_images, accumulated_results, accumulated_sha1s, [])
 
         return accumulated_sha1s, accumulated_results, accumulated_empty_sha1s
