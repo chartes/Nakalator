@@ -12,7 +12,7 @@ Les avantages de Nakalator sont les suivants :
 
 - **Retour utilisateur** : permet de tracer le nombre d'images envoyées sur Nakala en cours d'envoi ; 
 - **Performances** : suivant le type de machine utilisé et la quantité d'images, Nakalator réduit le temps d'envoi des images sur Nakala via différentes méthodes (Cf. Benchmark dans [Performances](#performances)) ;
-- **Intégrité des données** : génèration un fichier de *mapping* des images envoyées sur Nakala avec les identifiants DOI et sha1 et réalisation de tests de vérification après l'envoi des images.
+- **Intégrité des données** : génération un fichier de *mapping* des images envoyées sur Nakala avec les identifiants DOI et sha1. Réalisation de tests de vérification après l'envoi des images.
 
 ----
 
