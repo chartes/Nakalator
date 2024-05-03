@@ -1,20 +1,15 @@
 # Makefile
 
-# Nom du répertoire pour l'environnement virtuel
 VENV_DIR = venv
 
-# Commandes
 PYTHON = python3
 PIP = pip3
 
-# Venv
 VENV_BIN = $(VENV_DIR)/bin
 VENV_ACTIVATE = source $(VENV_BIN)/activate
-
-# Vérification de la disponibilité de virtualenv
 VENV_CHECK = $(shell $(PYTHON) -m virtualenv --version > /dev/null 2>&1; echo $$?)
 
-.PHONY: all check_venv create_venv install_requirements run_tool success
+.PHONY: all check_venv create_venv install_requirements run_tool success build_go
 
 all: check_venv create_venv install_requirements run_tool success
 
@@ -43,3 +38,8 @@ success:
 	@echo "source $(VENV_BIN)/activate"
 	@echo "Then you can run the tool with the following command:"
 	@echo "$(PYTHON) nakalator.py"
+
+build_go:
+	@echo "Build Go binary..."
+	@go build -o lib/go_scripts/nakala_request.so -buildmode=c-shared lib/go_scripts/nakala_request.go
+	@echo "Go binary built successfully!"

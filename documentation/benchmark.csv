@@ -1,4 +1,4 @@
-image_subset;time_mynkl;time_soft;time_hard
-50;25.40;20.26;10.23
-100;48.48;28.37;17.11
-500;211.2;136.11;76.30
+image_subset;time_mynkl;time_soft;time_hard;time_go
+50;25.40;20.26;10.23;8.10
+100;48.48;28.37;17.11;13.67
+500;211.2;136.11;76.30;57.32

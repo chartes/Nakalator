@@ -85,13 +85,16 @@ dans le dossier `metadatas/` qui rassemble les métadonées du lot d'image à en
 4. Enfin vous pouvez lancer le CLI avec la commande suivante et répondre aux instructions :
 
 ```bash
-python3 nakalator.py -m hard
+python3 nakalator.py -m [soft|hard|go]
 ```
 
 Deux méthodes d'envoi sont disponibles :
 
 - La méthode `soft` : cette méthode utilise un algorithme classique qui envoi les images une par une sur Nakala.
-- La méthode `hard` : cette méthode utilise un algorithme qui envoi les images en parallèle sur Nakala.
+- La méthode `hard` : cette méthode utilise un algorithme qui envoi les images en parallèle (*multithreading*) sur Nakala.
+- La méthode `go`  (expérimental)  : cette méthode utilise un algorithme qui envoi les images en parallèle (*go routines*) sur Nakala (les requêtes POST pour l'envoi des images est délégué à un script Go compilé).
+
+Toutes ces méthodes utilisent des stratégies de *backoff exponentiel* et des *accumulateurs* pour gérer les éventuelles erreurs de connexion avec l'API Nakala. Cela doit permettre de nouvelles tentatives en cas d'échec jusqu'à l'envoi complet du lot d'images.
 
 5. A la fin du processus, un fichier `{nom_du_projet}_mapping_ids_{date}.csv` sera généré dans le dossier `output/` contenant le *mapping* des images envoyés sur Nakala et des identifiants (DOI et sha1) (attention à bien archiver ce fichier qui sera utilisé pour la génération des manifestes IIIF).
 
@@ -110,6 +113,7 @@ Deux méthodes d'envoi sont disponibles :
 ### Performances
 
 Pour les tests de performances nous avons constitué 3 lots d'images (**subsets**) de 100, 500 et 1000 images.
+Pour chaque méthode évaluée, le *workflow* de traitements mesuré inclus : l'envoi des images sur Nakala, la création de la donnée et la création du rapport.
 
 > [!NOTE]
 > Ces résultats sont obtenus sur une machine disposant d'un processeur Apple M1 pro et de 16Go de RAM. Ils
@@ -117,11 +121,11 @@ peuvent varier suivant la configuration de la machine.
 
 Les résultats obtenus sont les suivants :
 
-| Total images | Mynkl (seconds) | Nakalator - "soft" method (seconds) | Nakalator - "hard" method (seconds)|
-|--------------|-----------------|----------------------------|---------------------------|
-| 50           | 25.40           | 20.26                      | 10.23                     |
-| 100          | 48.48           | 28.37                      | 17.11                     |
-| 500          | 211.2           | 136.11                     | 76.30                     |
+| Total images | Mynkl (seconds) | Nakalator - "soft" method (seconds) | Nakalator - "hard" method (seconds)| Nakalator - "go" method with 20 workers (seconds) |
+|--------------|-----------------|----------------------------|---------------------------|---------------------------------------------------|
+| 50           | 25.40           | 20.26                      | 10.23                     |   8.10                                             |
+| 100          | 48.48           | 28.37                      | 17.11                     | 13.67                                            |
+| 500          | 211.2           | 136.11                     | 76.30                     | 57.32                                            |
 
 
 ![capture-nakala](./documentation/benchmark_methods.png)

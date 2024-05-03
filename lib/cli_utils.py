@@ -38,7 +38,7 @@ def cli_log(message, type_message="info", indicator="info"):
 
 
 def valid_method(method: str):
-    if method.lower() not in ["soft", "hard"]:
+    if method.lower() not in ["soft", "hard", "go"]:
         raise typer.BadParameter("Method must be 'soft' or 'hard'")
     return method
 
