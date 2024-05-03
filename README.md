@@ -82,13 +82,13 @@ dans le dossier `metadatas/` qui rassemble les métadonées du lot d'image à en
 4. Enfin vous pouvez lancer le CLI avec la commande suivante et répondre aux instructions :
 
 ```bash
-python3 nakalator.py --hard
+python3 nakalator.py -m hard
 ```
 
 Deux méthodes d'envoi sont disponibles :
 
-- La méthode `--soft` : cette méthode utilise un algorithme classique qui envoi les images une par une sur Nakala.
-- La méthode `--hard` : cette méthode utilise un algorithme qui envoi les images en parallèle sur Nakala.
+- La méthode `soft` : cette méthode utilise un algorithme classique qui envoi les images une par une sur Nakala.
+- La méthode `hard` : cette méthode utilise un algorithme qui envoi les images en parallèle sur Nakala.
 
 5. A la fin du processus, un fichier `report_{nom_du_projet}.csv` sera généré dans le dossier `output/` contenant le *mapping* des images envoyés sur Nakala et des identifiants (DOI et sha1) (attention à bien archiver ce fichier qui sera utilisé pour la génération des manifestes IIIF).
 
