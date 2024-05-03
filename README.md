@@ -2,6 +2,8 @@
 
 ![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue)
 
+<img src="./documentation/nakalator.jpg" width="200" align="right">
+
 Nakalator est un CLI qui permet l'envoi d'images par lot sur un dépôt Nakala (**donnée uniquement**).
 
 Il peut-être conçu comme une alternative à l'outil [Mynkl](https://mynkl.huma-num.fr/). 
@@ -90,7 +92,7 @@ Deux méthodes d'envoi sont disponibles :
 - La méthode `soft` : cette méthode utilise un algorithme classique qui envoi les images une par une sur Nakala.
 - La méthode `hard` : cette méthode utilise un algorithme qui envoi les images en parallèle sur Nakala.
 
-5. A la fin du processus, un fichier `report_{nom_du_projet}.csv` sera généré dans le dossier `output/` contenant le *mapping* des images envoyés sur Nakala et des identifiants (DOI et sha1) (attention à bien archiver ce fichier qui sera utilisé pour la génération des manifestes IIIF).
+5. A la fin du processus, un fichier `{nom_du_projet}_mapping_ids_{date}.csv` sera généré dans le dossier `output/` contenant le *mapping* des images envoyés sur Nakala et des identifiants (DOI et sha1) (attention à bien archiver ce fichier qui sera utilisé pour la génération des manifestes IIIF).
 
 6. A la fin du processus, vous pouvez passer dans l'interface Nakala pour vérifier que les images ont bien été envoyées : 
     - vous pouvez modifier manuellement les métadonnées des données
@@ -109,16 +111,16 @@ Deux méthodes d'envoi sont disponibles :
 Pour les tests de performances nous avons constitué 3 lots d'images (**subsets**) de 100, 500 et 1000 images.
 
 > [!NOTE]
-> ces résultats sont obtenus sur une machine avec un processeur Apple M1 pro et 16Go de RAM
-et peuvent varier en fonction de la configuration de votre machine.
+> Ces résultats sont obtenus sur une machine disposant d'un processeur Apple M1 pro et de 16Go de RAM. Ils
+peuvent varier suivant la configuration de la machine.
 
 Les résultats obtenus sont les suivants :
 
 | Total images | Mynkl (seconds) | Nakalator - "soft" method (seconds) | Nakalator - "hard" method (seconds)|
 |--------------|-----------------|----------------------------|---------------------------|
-| 100          | 25.40           | 20.26                      | 10.23                     |
-| 500          | 48.48           | 28.37                      | 17.11                     |
-| 1000         | 211.2           | 136.11                     | 76.30                     |
+| 50           | 25.40           | 20.26                      | 10.23                     |
+| 100          | 48.48           | 28.37                      | 17.11                     |
+| 500          | 211.2           | 136.11                     | 76.30                     |
 
 
 ![capture-nakala](./documentation/benchmark_methods.png)

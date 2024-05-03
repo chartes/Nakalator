@@ -1,9 +1,11 @@
 import sys
-import requests
-import backoff
-from requests.exceptions import RequestException
-import json
+from functools import lru_cache
 
+import requests
+from requests.exceptions import RequestException
+import backoff
+
+import json
 import typer
 
 from lib.constants import API_NAKALA_KEY, METADATA_AUTO
@@ -62,6 +64,7 @@ def intialize_data(url, files, metadata_config):
 def add_file(url, files):
     image = create_file_cur(files)
     handle_sha1 = post(endpoint=f"{url}/datas/uploads", data=None, files=image)
+    image['file'].close()
     try:
         handle_sha1['sha1']
     except:

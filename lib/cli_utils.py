@@ -1,6 +1,7 @@
 from termcolor import colored
 from pyfiglet import Figlet
 from InquirerPy import inquirer
+import typer
 
 
 def banner():
@@ -35,6 +36,11 @@ def cli_log(message, type_message="info", indicator="info"):
     }
     return colored(f"{type_emoji_map[indicator]}\t{message}", type_color_map[type_message])
 
+
+def valid_method(method: str):
+    if method.lower() not in ["soft", "hard"]:
+        raise typer.BadParameter("Method must be 'soft' or 'hard'")
+    return method
 
 def prompt_select(message, choices, default=None):
     return inquirer.select(

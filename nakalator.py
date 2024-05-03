@@ -14,7 +14,6 @@ import datetime
 from time import sleep, time
 from concurrent.futures import ThreadPoolExecutor
 
-
 import typer
 from tqdm import tqdm
 
@@ -30,6 +29,7 @@ from lib.constants import (NAKALA_ROUTES,
 from lib.io_utils import (load_yaml)
 from lib.cli_utils import (cli_log,
                            banner,
+                           valid_method,
                            prompt_select,
                            prompt_confirm)
 from lib.requests_utils import (add_file,
@@ -50,7 +50,7 @@ class NakalaItem:
     @classmethod
     def to_csv(cls, name, items):
         pd.DataFrame([asdict(item) for item in items]).to_csv(
-            os.path.join(output_dir, f"{name}_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"),
+            os.path.join(output_dir, f"{name}_mapping_ids_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"),
             encoding="utf-8",
             index=True,
             sep=";")
@@ -63,7 +63,8 @@ def process(components, images, api_url, method, progress):
     empty_sha1 = []
     for i, item in enumerate(components):
         handle_sha1 = item.result() if method == "hard" else add_file(api_url, item)
-        if len(handle_sha1) != 0:
+        if handle_sha1 != {}:
+            print(str(os.path.basename(images[i])), handle_sha1)
             sha1s.append(handle_sha1)
             results_objects.append(NakalaItem(sha1=handle_sha1['sha1'], original_name=str(os.path.basename(images[i]))))
         else:
@@ -76,8 +77,6 @@ def process(components, images, api_url, method, progress):
 
 
 def work_with_accumulator(images, method, api_url):
-    images_prepared = [image for image in images]
-
     def process_images(images_to_process, accumulated_results=None, accumulated_sha1s=None,
                        accumulated_empty_sha1s=None):
         if accumulated_results is None:
@@ -89,7 +88,7 @@ def work_with_accumulator(images, method, api_url):
 
         with tqdm(total=len(images_to_process)) as progress:
             if method.lower() == "hard":
-                with ThreadPoolExecutor(max_workers=os.cpu_count() - 1) as executor:
+                with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
                     sha1s, results_objects, empty_sha1s = process(
                         components=[executor.submit(add_file, api_url, img_cur) for img_cur in images_to_process],
                         images=images,
@@ -111,12 +110,14 @@ def work_with_accumulator(images, method, api_url):
                 cli_log(f"Retry for {len(empty_sha1s)} failed uploads. Please wait 5 seconds before started new loop..",
                         "warning", "timer"))
             sleep(5)
-            retry_images = [image for image in empty_sha1s]
-            process_images(retry_images, accumulated_results, accumulated_sha1s, [])
+            process_images([image for image in empty_sha1s],
+                           accumulated_results,
+                           accumulated_sha1s,
+                           [])
 
         return accumulated_sha1s, accumulated_results, accumulated_empty_sha1s
 
-    return process_images(images_prepared)
+    return process_images(images)
 
 
 app = typer.Typer()
@@ -125,6 +126,7 @@ app = typer.Typer()
 @app.command()
 def main(method: str = typer.Option("soft", "--method", "-m", help="Method to send data to Nakala: 'hard' | 'soft'")):
     banner()
+    valid_method(method)
     # select an environment: test or production
     environment = prompt_select("Which Nakala environment do you want to use to send your data?",
                                 choices=['test', 'production'],
@@ -145,8 +147,12 @@ def main(method: str = typer.Option("soft", "--method", "-m", help="Method to se
     # retrieve all images from the directory with absolute path
     images = sorted([os.path.join(dir_images, f) for f in os.listdir(os.path.join(data_dir, dir_images))])
 
-    if prompt_confirm(f"Are you sure you want to create a data repository with {len(images)} images to Nakala {environment}?", default=False):
-        typer.echo(cli_log(f"Start sending data from {os.path.basename(dir_images)}/ to Nakala {environment} with '{method}' mode...", "info", "info"))
+    if prompt_confirm(
+            f"Are you sure you want to create a data repository with {len(images)} images to Nakala {environment}?",
+            default=False):
+        typer.echo(cli_log(
+            f"Start sending data from {os.path.basename(dir_images)}/ to Nakala {environment} with '{method}' mode...",
+            "info", "info"))
         # start timer to measure execution time
         start = time()
         # process images
@@ -193,9 +199,10 @@ def main(method: str = typer.Option("soft", "--method", "-m", help="Method to se
             __check_total_images(files, len(sorted(images)))
             __check_order_images(files, sorted([os.path.basename(image) for image in images]))
 
-        typer.echo(cli_log(f"All finished with success! Data handle: {handle_data_id['payload']['id']}, show report {metadata_config['name']}_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv in output folder\nDon't forget to reorder images in Nakala frontend.",
-                           "success",
-                           "good"))
+        typer.echo(cli_log(
+            f"All finished with success! Data handle: {handle_data_id['payload']['id']}, show report {metadata_config['name']}_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv in output folder\nDon't forget to reorder images in Nakala frontend.",
+            "success",
+            "good"))
     else:
         sys.exit()
 
