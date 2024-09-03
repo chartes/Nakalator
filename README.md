@@ -1,7 +1,5 @@
 # Nakalator CLI
 
-<img src="./documentation/nakalator.jpg" width="150" align="right">
-
 ![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue)
 
 Nakalator est un CLI qui permet l'envoi d'images par lot sur un dépôt Nakala (**donnée uniquement**).

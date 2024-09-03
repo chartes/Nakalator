@@ -1,14 +1,43 @@
+# -*- coding: utf-8 -*-
+# Licence : MIT
+
+"""constants.py
+
+This module contains the constants used in the Nakalator project.
+"""
 import os
 from datetime import datetime
+from pathlib import Path
 
-from lib.io_utils import load_yaml
+import yaml
 
-credentials = os.path.join(os.path.dirname(__file__), "..", "credentials.yml")
+from lib.utils.io_utils import load_yaml
 
-data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
-metadatas_dir = os.path.join(os.path.dirname(__file__), "..", "metadatas")
-output_dir = os.path.join(os.path.dirname(__file__), "..", "output")
-API_NAKALA_KEY = load_yaml(credentials)["API_NAKALA_KEY"]
+
+base_dir_create = Path(os.getcwd()) / "nakalator_workspace"
+data_dir_create = base_dir_create / "data"
+metadatas_dir_create = base_dir_create / "metadatas"
+output_dir_create = base_dir_create / "output"
+
+data_dir = Path(os.getcwd()) / "data"
+metadatas_dir = Path(os.getcwd()) / "metadatas"
+output_dir = Path(os.getcwd()) / "output"
+
+credentials_path = Path(os.getcwd()) / "credentials.yml"
+
+try:
+    credentials = load_yaml(str(credentials_path))
+except yaml.YAMLError as exc:
+    credentials = {}
+except FileNotFoundError as exc:
+    credentials = {}
+
+try:
+    API_NAKALA_KEY_TEST = credentials["API_NAKALA_KEY_TEST"]
+    API_NAKALA_KEY_PROD = credentials["API_NAKALA_KEY_PROD"]
+except KeyError as exc:
+    API_NAKALA_KEY_TEST = ""
+    API_NAKALA_KEY_PROD = ""
 
 NAKALA_ROUTES = {
     "production": {
@@ -20,7 +49,6 @@ NAKALA_ROUTES = {
       "api_url": "https://apitest.nakala.fr",
     },
 }
-
 
 METADATA_AUTO = [
     {
@@ -35,7 +63,7 @@ METADATA_AUTO = [
         "propertyUri": "http://nakala.fr/terms#created"
     },
     {
-        "value": "CC-BY-SA-4.0",
+        "value": "CC-BY-4.0",
         "typeUri": "http://www.w3.org/2001/XMLSchema#string",
         "propertyUri": "http://nakala.fr/terms#license"
     },
@@ -46,7 +74,7 @@ METADATA_AUTO = [
         "propertyUri": "http://nakala.fr/terms#type"
     },
     {
-        "value": "École nationale des chartes",
+        "value": "École nationale des chartes - PSL",
         "lang": "fr",
         "typeUri": "http://www.w3.org/2001/XMLSchema#string",
         "propertyUri": "http://purl.org/dc/terms/publisher"

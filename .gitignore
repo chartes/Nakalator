@@ -167,5 +167,10 @@ data/subset_100
 data/subset_500
 
 scripts/
+old/
+
+nakalator_workspace/
+keep_from_nakalator/
 
 .DS_Store
+TODO.txt
