@@ -1,21 +1,24 @@
-# Nakalator CLI
+# Nakalator
 
 ![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue)
 
 Nakalator est un CLI pour faciliter la création de dépôt et l'envoi de fichiers sur la plateforme [Nakala](https://nakala.fr/).
 
 Nakalator permet : 
-    - de créer un dépôt sur Nakala avec des métadonnées associées grâce à un fichier YAML ;
-    - d'envoyer des fichiers (par exemple, des images) sur Nakala associé à une donnée ;
-    - de créer une collection de données ou de rattacher des données à une collection existante dans Nakala;
+
+- de créer un dépôt sur Nakala avec des métadonnées associées grâce à un fichier YAML ;
+- d'envoyer des fichiers (par exemple, des images) sur Nakala associé à une donnée ;
+- de créer une collection de données ou de rattacher des données à une collection existante dans Nakala;
 
 Il peut-être conçu comme une alternative à l'outil [Mynkl](https://mynkl.huma-num.fr/). 
 
 Les avantages de Nakalator sont les suivants :
 
 - **Retour utilisateur** : permet de tracer le nombre de fichiers envoyées sur Nakala en cours d'envoi ; 
-- **Performances** : suivant le type de machine utilisé et la quantité de fichiers, Nakalator réduit le temps d'envoi des fichiers sur Nakala via une méthode d'envoi **multi-threads** (via des go routines) ;
-- **Intégrité des données** : génération d'un fichier de *mapping* des fichiers envoyées sur Nakala avec les identifiants DOI et sha1. Réalisation de tests de vérification après l'envoi des fichiers.
+- **Performances** : suivant le type de machine utilisé et la quantité de fichiers, Nakalator réduit le temps d'envoi des fichiers sur Nakala via une méthode d'envoi **multi-threads** (go routines) ;
+- **Intégrité des données envoyées** : génération d'un fichier de *mapping* des fichiers envoyées sur Nakala avec les identifiants DOI et sha1 à la fin de la procédure et réalisation de tests automatiques de vérification après l'envoi des fichiers.
+
+Par défaut, les données et les collections créées dans Nakala sont en mode privées ou en attente.
 
 ----
 
