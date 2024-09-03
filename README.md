@@ -2,7 +2,7 @@
 
 ![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue)
 
-Nakalator est un outil en ligne de commande (CLI) conçu pour faciliter la création de dépôts et l'envoi de fichiers sur la plateforme [Nakala](https://nakala.fr/) <img src="./assets/nakala.png" width="15px">
+Nakalator est un outil en ligne de commande (CLI) conçu pour faciliter la création de dépôts et l'envoi de fichiers sur la plateforme [Nakala](https://nakala.fr/) <img src="./assets/nakala.png" width="20px">
 
 Nakalator permet de :
 - Créer un dépôt sur Nakala avec des métadonnées associées en utilisant un fichier YAML.
@@ -137,7 +137,7 @@ Suivez les instructions et répondez aux questions posées par le CLI.
    - Donnée rattachée à une collection : `data_{ordre}_{doi_de_la_collection}_{doi_de_la_donnee}.csv`
    - Donnée non rattachée à une collection : `data_{ordre}_{doi_de_la_donnee}.csv`
 
-Ce fichier, à bien conserver, contient l'ensemble des fichiers envoyés sur Nakala avec les identifiants DOI et SHA-1 associés (ce qui peut être utile pour la génération de manifestes IIIF, par exemple).
+Ce fichier, à bien conserver, contient l'ensemble des fichiers envoyés sur Nakala avec les identifiants DOI et SHA-1 associés (ce qui peut être utile pour la génération de manifestes <img src="./assets/iiif.png" width="20px"> ).
 
 5. Vous pouvez vérifier dans l'interface Nakala que les données ont bien été envoyées :
 
