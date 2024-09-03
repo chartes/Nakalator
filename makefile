@@ -1,8 +1,5 @@
 # Makefile
 
-# MEMO
-# command : make build_pkg VERSION_PKG=0.0.1-beta
-
 VENV_DIR = venv
 
 PYTHON = python3

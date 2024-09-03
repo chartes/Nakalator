@@ -1,0 +1,5 @@
+# Commandes pour le makefile
+make build_pkg VERSION_PKG=0.0.1-beta
+
+# pour installer un package depuis pypi test
+pip install --index-url https://test.pypi.org/simple/ mypackage==0.0.1-beta

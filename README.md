@@ -2,26 +2,30 @@
 
 ![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue)
 
-Nakalator est un CLI qui permet l'envoi d'images par lot sur un dépôt Nakala (**donnée uniquement**).
+Nakalator est un CLI pour faciliter la création de dépôt et l'envoi de fichiers sur la plateforme [Nakala](https://nakala.fr/).
+
+Nakalator permet : 
+    - de créer un dépôt sur Nakala avec des métadonnées associées grâce à un fichier YAML ;
+    - d'envoyer des fichiers (par exemple, des images) sur Nakala associé à une donnée ;
+    - de créer une collection de données ou de rattacher des données à une collection existante dans Nakala;
 
 Il peut-être conçu comme une alternative à l'outil [Mynkl](https://mynkl.huma-num.fr/). 
 
 Les avantages de Nakalator sont les suivants :
 
-- **Retour utilisateur** : permet de tracer le nombre d'images envoyées sur Nakala en cours d'envoi ; 
-- **Performances** : suivant le type de machine utilisé et la quantité d'images, Nakalator réduit le temps d'envoi des images sur Nakala via différentes méthodes (Cf. Benchmark dans [Performances](#performances)) ;
-- **Intégrité des données** : génération un fichier de *mapping* des images envoyées sur Nakala avec les identifiants DOI et sha1. Réalisation de tests de vérification après l'envoi des images.
+- **Retour utilisateur** : permet de tracer le nombre de fichiers envoyées sur Nakala en cours d'envoi ; 
+- **Performances** : suivant le type de machine utilisé et la quantité de fichiers, Nakalator réduit le temps d'envoi des fichiers sur Nakala via une méthode d'envoi **multi-threads** (via des go routines) ;
+- **Intégrité des données** : génération d'un fichier de *mapping* des fichiers envoyées sur Nakala avec les identifiants DOI et sha1. Réalisation de tests de vérification après l'envoi des fichiers.
 
 ----
 
 ## Sommaire
 
-- [Installation du CLI](#installation-du-cli)
+- [Installation](#installation)
 - [Marche à suivre](#marche-à-suivre)
-- [Performances](#performances)
 - [FAQ](#faq)
 
-### Installation du CLI
+### Installation
 
 Cloner le projet :
 
@@ -108,26 +112,6 @@ Toutes ces méthodes utilisent des stratégies de *backoff exponentiel* et des *
 
 > [!WARNING]
 > Une fois la donnée "publié" dans Nakala, il n'est plus possible de la supprimer (contacter le support de Nakala).
-
-### Performances
-
-Pour les tests de performances nous avons constitué 3 lots d'images (**subsets**) de 100, 500 et 1000 images.
-Pour chaque méthode évaluée, le *workflow* de traitements mesuré inclus : l'envoi des images sur Nakala, la création de la donnée et la création du rapport.
-
-> [!NOTE]
-> Ces résultats sont obtenus sur une machine disposant d'un processeur Apple M1 pro et de 16Go de RAM. Ils
-peuvent varier suivant la configuration de la machine.
-
-Les résultats obtenus sont les suivants :
-
-| Total images | Mynkl (seconds) | Nakalator - "soft" method (seconds) | Nakalator - "hard" method (seconds)| Nakalator - "go" method with 20 workers (seconds) |
-|--------------|-----------------|----------------------------|---------------------------|---------------------------------------------------|
-| 50           | 25.40           | 20.26                      | 10.23                     |   8.10                                             |
-| 100          | 48.48           | 28.37                      | 17.11                     | 13.67                                            |
-| 500          | 211.2           | 136.11                     | 76.30                     | 57.32                                            |
-
-
-![capture-nakala](./documentation/benchmark_methods.png)
 
 ### FAQ
 
