@@ -86,6 +86,8 @@ make build_pkg VERSION_PKG=0.0.1-beta # exemple de version à spécifier
 make build_go
 ```
 
+Dans ce dernier cas, l'installation préalable du langage Go est nécessaire.
+
 ### Marche à suivre
 
 1. Une fois l'installation effectuée, et pour la première utilisation de l'outil, commencez par créer votre environnement de travail (nommé `nakalator_workspace`) :
