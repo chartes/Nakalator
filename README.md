@@ -53,7 +53,7 @@ pip install -e .
 nakalator --help
 ```
 
-#### Pour le développement
+#### Pour le développement (uniquement)
 
 1. Clonez le projet :
 
