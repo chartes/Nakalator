@@ -230,6 +230,7 @@ class Nakalator:
         reports = []
         results_objects = []
         count = 0
+        start_all_process = time.time()
         for f, m in self.metadata_files_cache:
             count += 1
             cli_log(f"{count}/{len(self.metadata_files_cache)} Processing metadata file > nkl data: {os.path.basename(f)}", "info")
@@ -237,11 +238,13 @@ class Nakalator:
             images = self.prepare_images(m["data"]["path"])
             # retrieve collection id and title
             collection_id = m["collectionIds"]
+            start_process_files = time.time()
             sha1s = process_nkl_files_with_go(
                     url=f'{self.nakala_sender._api_url}/datas/uploads',
                     api_key=self.nakala_sender._api_key,
                     file_paths=images
                 )
+            cli_log("⏳\tTime elapsed to process files on Nakala: {:.2f} seconds".format(time.time() - start_process_files), "info")
             results_objects = [NakalaItem(sha1=sha1['sha1'], original_name=sha1['name']) for sha1 in sha1s]
             # create data repository
             handle_data_id = self.nakala_sender.initialize_nakala_data(sha1s=sha1s, metadata_config=m)
@@ -267,7 +270,6 @@ class Nakalator:
                 data_id=handle_data_id
                 )
                 if len(files) > 0:
-                    # emoji mechanic
                     cli_log("🔍Results tests session: ")
                     check_total_images(files, len(sorted(images)))
                     check_order_images(files, sorted([os.path.basename(f) for f in images]))
@@ -292,5 +294,7 @@ class Nakalator:
                              output_dir=output_dir)
             cli_log(f"Reports merged in one file: merge_{collection_doi}_mapping_ids_all.csv", "success")
 
+        # time elapsed for all process
+        cli_log("⏳\tTime elapsed for all process: {:.2f} seconds".format(time.time() - start_all_process), "info")
         cli_log(f"All process done! See you soon.", "success")
         sys.exit(0)
