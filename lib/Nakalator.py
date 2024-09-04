@@ -226,6 +226,9 @@ class Nakalator:
 
     def run_data(self) -> None:
         """Run the data creation process.
+
+        :return: None
+        :rtype: None
         """
         reports = []
         results_objects = []
@@ -285,7 +288,6 @@ class Nakalator:
             # if not the last metadata file wait 2 secs before next
             if f != self.metadata_files_cache[-1][0]:
                 time.sleep(2)
-
 
         if len(reports) > 1 and self._same_collection_batch:
             collection_doi = self.format_id(results_objects[0].collection_doi)

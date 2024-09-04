@@ -42,6 +42,7 @@ def banner() -> None:
     print(f"{f.renderText('Nakalator')}")
     print("""This CLI allows you to send images to Nakala.\n© 2024 - ENC / Mission projets numériques\n""")
 
+
 def prompt_select(message: str, choices: list, default: str) -> str:
     """Prompt the user to select an option from a list of choices.
     :param message: a message to display to the user
@@ -59,13 +60,16 @@ def prompt_select(message: str, choices: list, default: str) -> str:
         default=default,
     ).execute()
 
+
 def prompt_confirm(message: str, default: bool = False):
     return inquirer.confirm(
         message=message,
         default=default,
     ).execute()
 
-"""Replace by wasabi package
+
+"""
+Replace by wasabi package
 def cli_log(message, type_message="info", indicator="info"):
     type_color_map = {
         "info": "blue",
