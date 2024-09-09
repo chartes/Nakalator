@@ -6,6 +6,7 @@
 This script is used to build the package nakalator and install it.
 """
 
+
 from setuptools import setup
 
 __version__ = '0.0.1-beta'
