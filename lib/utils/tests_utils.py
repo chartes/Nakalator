@@ -9,33 +9,33 @@
 from lib.utils.cli_utils import cli_log
 from lib.utils.io_utils import load_csv
 
-def check_total_images(files_received: list,
-                       total_org_images: int) -> None:
-    """Check if the total number of files received is equal to the total number of original images
+def check_total_files(files_received: list,
+                       total_org_files: int) -> None:
+    """Check if the total number of files received is equal to the total number of original files
 
     :param files_received: the files received from Nakala
     :type files_received: list
-    :param total_org_images: the total number of original images
+    :param total_org_images: the total number of original files
     :type total_org_images: int
     :return: None
     :rtype: None
     """
-    assert len(files_received) == total_org_images, cli_log("Missing files on Nakala", "error")
+    assert len(files_received) == total_org_files, cli_log("Missing files on Nakala", "error")
     cli_log("Check total files on Nakala OK", "success")
 
-def check_order_images(files_received: list,
-                       sorted_org_images: list) -> None:
-    """Check if the order of the files received is the same as the order of the original images
+def check_order_files(files_received: list,
+                       sorted_org_files: list) -> None:
+    """Check if the order of the files received is the same as the order of the original files
 
     :param files_received: the files received from Nakala
     :type files_received: list
-    :param sorted_org_images: the sorted original images
+    :param sorted_org_images: the sorted original files
     :type sorted_org_images: list
     :return: None
     :rtype: None
     """
     try:
-        for file_received, file_org in zip(files_received, sorted_org_images):
+        for file_received, file_org in zip(files_received, sorted_org_files):
             assert file_received['name'] == file_org, cli_log("Order files are not the same. "
                                                         "Don't worry, this happens when you use method "
                                                         "'hard' or you have retried requests."

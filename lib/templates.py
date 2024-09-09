@@ -4,9 +4,9 @@
 """This file contains the user assets for the project that convert to yaml
 """
 
-credentials_to_yaml = "API_NAKALA_KEY_PROD: \"\" # Remplir avec la clé API " \
+credentials_to_yaml = "API_NAKALA_KEY_PROD: \"indiquer votre clé ici\" # Remplir avec la clé API " \
                       "si vous utilisez l'instance Nakala en production\n" \
-                      "API_NAKALA_KEY_TEST: \"\" # Remplir avec la clé API " \
+                      "API_NAKALA_KEY_TEST: \"indiquer votre clé ici\" # Remplir avec la clé API " \
                       "si vous utilisez l'instance Nakala en test"
 
 metadata_to_yaml = """# ***************************************************************************
@@ -17,22 +17,34 @@ metadata_to_yaml = """# ********************************************************
 
 name: "BELLELAY" # Nom du projet nakalator (de préférence le préfixe utilisé pour les images)
 
+################################################################################################
 # ZONE DONNÉE
+################################################################################################
+
 data:
-  path: "" # Chemin absolu (!) vers le répertoire des données dans nakalator_workspace/data/ par exemple le dossier contenant l'image ou les images 
+  path: "/Users/user/Documents/dev/nakalator_workspace/data/mon_projet_1/mon_projet_1_1/" # Chemin absolu (!) vers le répertoire des données dans nakalator_workspace/data/mon_dossier_contenant_les_images/ par exemple le dossier contenant l'image ou les images 
   type: "tif" # Format des images (jpeg, tif, png, etc.)
   status: "pending" # "pending" ou "published". Il est conseillé de laisser "pending" par défaut et de changer le status dans Nakala une fois le dépôt validé manuellement.
 
+################################################################################################
 # ZONE COLLECTION
+################################################################################################
+
 collectionIds: "" # Utiliser le DOI de la collection présent dans Nakala si les images sont déposées dans une collection existante, sinon laisser vide.
 collectionTitle: "Le nom de ma collection à créer" # A remplir si je souhaite créer une nouvelle collection au moment du dépôt de ma ou de mes données, sinon laisser vide.
 collectionDescription: "La description de ma collection à créer" # A remplir si je souhaite créer une nouvelle collection au moment du dépôt de ma ou de mes données, sinon laisser vide.
 collectionStatus: "private" # "private" ou "public". Il est conseillé de laisser "private" par défaut et de changer le status dans Nakala une fois le versement de la ou des données réalisé.
 
+################################################################################################
 # ZONE MÉTADONNÉES DE LA DONNÉE
-metadata:
-  # Métadonnées strictement requises (à compléter manuellement sinon elles seront générés automatiquement avec des valeurs par défaut):
+################################################################################################
 
+metadata:
+  # ===========================================================================
+  # * Métadonnées obligatoires pour le dépôt dans Nakala *
+  # à compléter manuellement sinon elles seront générés automatiquement avec des valeurs par défaut.
+  # ===========================================================================
+  
   http://nakala.fr/terms#title: # Le titre de la donnée qui s'affiche dans la page de présentation de la donnée sur Nakala
     value : "Images du graduel de Bellelay" # a modifier
     lang : "fr"
@@ -67,8 +79,10 @@ metadata:
     lang: "fr"
     typeUri: "http://www.w3.org/2001/XMLSchema#string"
 
-
-  # ... ajouter d'autres métadonnées qualifiées si nécessaire avec d'autres schémas (https://documentation.huma-num.fr/nakala-guide-de-description/), par exemple (a commenter ou décommenter):
+  # ===========================================================================
+  # * Métadonnées facultatives pour le dépôt dans Nakala *
+  # Ajouter d'autres métadonnées qualifiées si nécessaire avec d'autres schémas (https://documentation.huma-num.fr/nakala-guide-de-description/)
+  # ===========================================================================
 
   http://purl.org/dc/terms/title:
     value: "Un autre titre"

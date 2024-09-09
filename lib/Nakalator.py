@@ -22,8 +22,8 @@ from lib.utils.io_utils import (
     rewrite_metadata_config_with_collection_ids
 )
 from lib.utils.tests_utils import (
-    check_total_images,
-    check_order_images,
+    check_total_files,
+    check_order_files,
     check_sha1_consistency
 )
 from lib.constants import (
@@ -93,15 +93,15 @@ class Nakalator:
             self.collection_created = []
 
     @staticmethod
-    def prepare_images(path_dir_images: str) -> list:
-        """Prepare images to be sent to Nakala.
+    def prepare_files(path_dir_files: str) -> list:
+        """Prepare files to be sent to Nakala.
 
-        :param path_dir_images: the path to the images
-        :type path_dir_images: str
+        :param path_dir_files: the path to the images
+        :type path_dir_files: str
         :return: the sorted list of images
         :rtype: list
         """
-        return sorted([os.path.join(path_dir_images, f) for f in os.listdir(path_dir_images)])
+        return sorted([os.path.join(path_dir_files, f) for f in os.listdir(path_dir_files)])
 
     @staticmethod
     def format_id(doi: str) -> str:
@@ -238,14 +238,18 @@ class Nakalator:
             count += 1
             cli_log(f"{count}/{len(self.metadata_files_cache)} Processing metadata file > nkl data: {os.path.basename(f)}", "info")
             # prepare images
-            images = self.prepare_images(m["data"]["path"])
+            files_to_send = self.prepare_files(m["data"]["path"])
+            # try if path data contains dir "data"
+            if "data" not in m["data"]["path"]:
+                cli_log(f"Files to send must be in 'data' directory, please check in {os.path.basename(f)}", "error")
+                sys.exit(1)
             # retrieve collection id and title
             collection_id = m["collectionIds"]
             start_process_files = time.time()
             sha1s = process_nkl_files_with_go(
                     url=f'{self.nakala_sender._api_url}/datas/uploads',
                     api_key=self.nakala_sender._api_key,
-                    file_paths=images
+                    file_paths=files_to_send
                 )
             cli_log("⏳\tTime elapsed to process files on Nakala: {:.2f} seconds".format(time.time() - start_process_files), "info")
             results_objects = [NakalaItem(sha1=sha1['sha1'], original_name=sha1['name']) for sha1 in sha1s]
@@ -257,12 +261,20 @@ class Nakalator:
                 obj.collection_doi = collection_id
 
             with msg.loading("Saving report..."):
+                # create an output dir if not exist based on m['name']
+                try:
+                    name_project = m["name"]
+                except:
+                    name_project = "project"
+                output_dir_project = os.path.join(output_dir, name_project)
+                if not os.path.exists(output_dir_project):
+                    os.makedirs(output_dir_project)
                 try:
                     if collection_id in ["", None]:
                         name_report_csv = f"data_{count}_{self.format_id(handle_data_id)}_mapping_ids_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
                     else:
                         name_report_csv = f"data_{count}_{self.format_id(collection_id)}_{self.format_id(handle_data_id)}_mapping_ids_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-                    NakalaItem.to_csv(name_report_csv, results_objects, output_dir)
+                    NakalaItem.to_csv(name_report_csv, results_objects, output_dir_project)
                     reports.append(name_report_csv)
                 except Exception as e:
                    cli_log(f"Error when saving report: {e}", "error")
@@ -274,9 +286,9 @@ class Nakalator:
                 )
                 if len(files) > 0:
                     cli_log("🔍Results tests session: ")
-                    check_total_images(files, len(sorted(images)))
-                    check_order_images(files, sorted([os.path.basename(f) for f in images]))
-                    check_sha1_consistency(os.path.join(output_dir, name_report_csv), files)
+                    check_total_files(files, len(sorted(files_to_send)))
+                    check_order_files(files, sorted([os.path.basename(f) for f in files_to_send]))
+                    check_sha1_consistency(os.path.join(output_dir_project, name_report_csv), files)
                     print("-" * 50)
                 else:
                     cli_log("Cannot run tests for the moment, please check manually in Nakala", "warning")
@@ -293,7 +305,7 @@ class Nakalator:
             collection_doi = self.format_id(results_objects[0].collection_doi)
             merge_df_reports(sorted_reports=sorted(reports)[::-1],
                              collection_doi=collection_doi,
-                             output_dir=output_dir)
+                             output_dir=output_dir_project)
             cli_log(f"Reports merged in one file: merge_{collection_doi}_mapping_ids_all.csv", "success")
 
         # time elapsed for all process

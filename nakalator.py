@@ -60,12 +60,6 @@ def init() -> None:
     cli_log("For more information, see the README.md file in https://github.com/chartes/Nakalator.", "info")
 
 
-"""
-@app.command()
-def run_app():
-    subprocess.run(["streamlit", "run", "../st_app/nakalator_app.py"])
-"""
-
 @app.command()
 def main() -> None:
     """Main function for the Nakalator CLI."""

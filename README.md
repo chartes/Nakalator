@@ -1,6 +1,7 @@
 # Nakalator CLI
 
-![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue)
+![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue) ![os-versions](https://img.shields.io/badge/OS\/supported-Linux%20%7C%20MacOS%20Arm64-green)
+
 
 Nakalator est un outil en ligne de commande (CLI) conçu pour faciliter la création de dépôts et l'envoi de fichiers sur la plateforme [Nakala](https://nakala.fr/) <img src="./assets/nakala.png" width="20px">
 
@@ -28,17 +29,19 @@ Les avantages de Nakalator sont les suivants :
 
 ### Installation
 
-1. Clonez le projet :
+#### Méthode 1 recommandée
+
+1. Clonez le projet (via https ou ssh) :
 
 ```bash
-git clone git@github.com:chartes/Nakalator.git
+git clone git@github.com:chartes/Nakalator.git # exemple avec ssh ici
 cd Nakalator/
 ```
 
 2. (Optionnel) Créez un environnement virtuel avec `virtualenv`, `pyenv`, etc. ici avec `virtualenv` par exemple :
 
 ```bash
-virtualenv -p python3.9 venv
+virtualenv -p python3.9 venv # exemple avec python3.9 mais vous pouvez choisir une autre version python3.10 par exemple
 source venv/bin/activate
 ```
 
@@ -54,7 +57,7 @@ pip install -e .
 nakalator --help
 ```
 
-#### Pour le développement (uniquement)
+#### Méthode 2 (pour le développement uniquement)
 
 1. Clonez le projet :
 
@@ -69,24 +72,39 @@ cd Nakalator/
 make all
 ```
 
-3. Pour lancer l'outil :
+3. Puis lancer l'outil pour tester :
 
 ```bash
 python3 nakalator.py --help
 ```
 
-- Pour compiler l'ensemble du projet (sources Go, build, dist, etc.) avant la distribution via Pypi depuis `Naklator/` :
+##### Commandes pour le développement très spécifiques
+
+**Si et seulement si cela est nécéssaire** : pour compiler l'ensemble du projet (build, dist, etc. et hors sources GO) avant la distribution via Pypi depuis `Naklator/` :
 
 ```bash
 make build_pkg VERSION_PKG=0.0.1-beta # exemple de version à spécifier 
 ```
 
-- En cas de modification des sources Go, vous pouvez recompiler le binaire depuis `Naklator/` :
+**Si et seulement si cela est nécéssaire** : en cas de modification des sources Go, vous devez recompiler le binaire depuis `Naklator/` **pour Linux et pour MacOS** :
+
+sur linux : 
 
 ```bash
 make build_go
 ```
 
+Cela créé alors un binaire `nakala_request.so` dans le dossier `lib/bridge/`
+
+sur MacOS :
+
+```bash
+maka build_go # même commande que pour linux
+```
+
+Cela créé alors un binaire `nakala_request.dylib` dans le dossier `lib/bridge/`
+
+Attention 
 Dans ce dernier cas, l'installation préalable du langage Go est nécessaire.
 
 ### Marche à suivre
@@ -107,17 +125,56 @@ Ce dossier contiendra :
 Notez également la présence d'un fichier nommé `credentials.yml` pour renseigner les informations de connexion à Nakala (clés API)
 en test (https://test.nakala.fr/) ou en production (https://nakala.fr/).
 
-2. L'organisation des fichiers de métadonnées YAML et des fichiers à envoyer est cruciale. 
+
+2. Commencer par remplir le fichier `credentials.yml` avec les informations de connexion à Nakala (clés API).
+Pour l'instance de test, des clés d'API sont disponibles sur la page d'accueil de l'instance de test de Nakala (https://test.nakala.fr/).
+Pour l'instance de production Nakala, vous devez disposer d'un compte HumanID auprès d'Huma-Num et demander des clés d'API à l'équipe Nakala.
+
+3. L'organisation des fichiers de métadonnées YAML et des fichiers à envoyer est cruciale. 
 Le fichier pivot YAML contient les métadonnées de la donnée à envoyer sur Nakala et les liens vers les fichiers à envoyer.
 Plusieurs cas d'usage sont possibles, les plus courants sont :
 
 - **Création d'une donnée sur Nakala (rattachée ou non à une collection existante ou nouvelle) avec des fichiers associés (par exemple, des images)** :
   1. Déposez votre fichier YAML (préalablement rempli) dans le dossier `metadatas/` (par exemple `metadatas/mon_projet.yml`) ;
   2. Déposez vos images dans un dossier spécifique dans `data/` (par exemple `data/mon_projet/image1.jpg`, `data/mon_projet/image2.jpg`, etc.).
+  
+  Voici un exemple de structure de dossiers pour ce cas d'usage :
+  ```
+   nakalator_workspace/
+       |
+       ├── metadatas/
+       │    ├── mon_projet.yml
+       │
+       ├── data/
+            ├── mon_projet/
+                 ├── image1.jpg
+                 ├── image2.jpg
+  ```
 
-- **Création de plusieurs données sur Nakala (rattachées ou non à une collection existante ou nouvelle) avec des fichiers associés (par exemple, des images) pour chacune d'elles** :
-  1. Déposez vos fichiers YAML (préalablement remplis) dans sous-dossier situé dans le dossier `metadatas/` (par exemple `metadatas/mon_projet/mon_projet1_1.yml`, `metadatas/mon_projet/mon_projet1_2.yml`) ;
-  2. Déposez vos images dans des sous-dossiers spécifiques placés dans un sous-dossier (portant le nom du projet) de `data/` (par exemple `data/mon_projet/mon_projet1_1/image1.jpg`, `data/mon_projet/mon_projet1_1/image2.jpg`, `data/mon_projet/mon_projet1_2/image1.jpg`, `data/mon_projet/mon_projet1_2/image2.jpg`, etc.).
+- **Création de plusieurs données (envoi en lot) sur Nakala (rattachées ou non à une collection existante ou nouvelle) avec des fichiers associés (par exemple, des images) pour chacune d'elles** :
+  1. Déposez vos fichiers YAML (préalablement remplis) dans sous-dossier situé dans le dossier `metadatas/` (par exemple `metadatas/mon_projet/mon_projet_1.yml`, `metadatas/mon_projet/mon_projet_2.yml`) ;
+  2. Déposez vos images dans des sous-dossiers spécifiques placés dans un sous-dossier (portant le nom du projet) de `data/` (par exemple `data/mon_projet/mon_projet_1/image1.jpg`, `data/mon_projet/mon_projet_1/image2.jpg`, `data/mon_projet/mon_projet_2/image1.jpg`, `data/mon_projet/mon_projet_2/image2.jpg`, etc.).
+  
+  Voici un exemple de structure de dossiers pour ce cas d'usage :
+  ```
+    nakalator_workspace/
+         |
+         ├── metadatas/
+         │    ├── mon_projet/
+         │         ├── mon_projet_1.yml
+         │         ├── mon_projet_2.yml
+         │
+         ├── data/
+                ├── mon_projet/
+                  ├── mon_projet_1/
+                         ├── image1.jpg
+                         ├── image2.jpg
+                  ├── mon_projet_2/
+                         ├── image1.jpg
+                         ├── image2.jpg
+  ```
+
+
 
 > [!TIP]
 > Pour remplir le fichier YAML, vous pouvez vous inspirer du fichier `metadata_example.yml` présent dans le dossier `nakalator_workspace/` lors de l'initialisation de l'environnement de travail. 
@@ -133,7 +190,7 @@ Plusieurs cas d'usage sont possibles, les plus courants sont :
 > [!TIP]
 > Pour plus d'informations sur les métadonnées Nakala, consultez la [documentation Nakala](https://documentation.huma-num.fr/nakala-guide-de-description/).
 
-3. Une fois l'étape 2 terminée, vous pouvez lancer l'envoi des données sur Nakala depuis le répertoire `nakalator_workspace/` :
+4. Une fois l'étape 2 terminée, vous pouvez lancer l'envoi des données sur Nakala depuis le répertoire `nakalator_workspace/` :
 
 ```bash
 nakalator main
@@ -144,14 +201,14 @@ Suivez les instructions et répondez aux questions posées par le CLI.
 > [!TIP]
 > Une fois la donnée créée, il est toujours possible de modifier ou d'ajouter des métadonnées dans l'interface Nakala suivant l'instance désignée (production ou test).
 
-4. À la fin du processus, un ou plusieurs fichiers de mapping seront générés dans le dossier `output/` de votre `nakalator_workspace/`. Le nommage est le suivant :
+5. À la fin du processus, un ou plusieurs fichiers de mapping seront générés dans le dossier `output/` de votre `nakalator_workspace/`. Le nommage est le suivant :
 
    - Donnée rattachée à une collection : `data_{ordre}_{doi_de_la_collection}_{doi_de_la_donnee}.csv`
    - Donnée non rattachée à une collection : `data_{ordre}_{doi_de_la_donnee}.csv`
 
 Ce fichier, à bien conserver, contient l'ensemble des fichiers envoyés sur Nakala avec les identifiants DOI et SHA-1 associés.
 
-5. Vous pouvez vérifier dans l'interface Nakala que les données ont bien été envoyées :
+6. Vous pouvez vérifier dans l'interface Nakala que les données ont bien été envoyées :
 
 - Modifier manuellement les métadonnées des données.
 - Ajouter des fichiers supplémentaires si nécessaire.

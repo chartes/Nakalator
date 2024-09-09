@@ -15,12 +15,11 @@ def init_lib() -> dict:
     lib_ext = ""
 
     if system == "Linux":
-        lib_ext = "_linux.so"
-    elif system == "Darwin":  # macOS
-        lib_ext = "_macOS.dylib"
-    else:
-        print(f"Unsupported OS: {system}")
         lib_ext = ".so"
+    elif system == "Darwin":  # macOS
+        lib_ext = ".dylib"
+    else:
+        raise f"Unsupported OS: {system}"
 
     so_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),

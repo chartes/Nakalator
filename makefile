@@ -20,7 +20,7 @@ set_version_pkg:
 	@sed -i.bak "s/version=[\"'].*[\"']/version='$(VERSION_PKG)'/" setup.py
 	@rm -f setup.py.bak
 
-build_pkg: set_version_pkg build_go
+build_pkg: set_version_pkg
 	@echo "Build package..."
 	@$(PYTHON) setup.py sdist bdist_wheel
 	@echo "Package built successfully!"
@@ -78,9 +78,25 @@ build_go:
 	    echo "Fetching dependencies..." && \
 	    go mod tidy; \
 	fi && \
-	echo "Building Go binary..." && \
-	go build -o ./lib/bridge/nakala_request.so -buildmode=c-shared ./lib/bridge/nakala_request.go && \
-	echo "Go binary built successfully!"
+	echo "Building Go binary..."
+	@if [ "$(shell uname)" = "Darwin" ]; then \
+        echo "Building for Darwin platform..." && \
+        cd lib/bridge && \
+        export CGO_ENABLED=1 && \
+        export GOOS=darwin && \
+        export GOARCH=arm64 && \
+        go build -o nakala_request.dylib -buildmode=c-shared && \
+        echo "Go binary built successfully!"; \
+    fi
+	@if [ "$(shell uname)" = "Linux" ]; then \
+        echo "Building for Linux platform..." && \
+        cd lib/bridge && \
+        export CGO_ENABLED=1 && \
+        export GOOS=linux && \
+        export GOARCH=amd64 && \
+        go build -o nakala_request.so -buildmode=c-shared && \
+        echo "Go binary built successfully!"; \
+    fi
 
 
 
