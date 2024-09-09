@@ -8,6 +8,7 @@ Main entry point. Launcher for the Nakalator CLI.
 
 import os
 import shutil
+import subprocess
 import sys
 
 from typer import Typer
@@ -58,6 +59,12 @@ def init() -> None:
     cli_log("Recreate the project structure overwrites the existing one. Be careful! Use only if it is necessary.", "warning")
     cli_log("For more information, see the README.md file in https://github.com/chartes/Nakalator.", "info")
 
+
+"""
+@app.command()
+def run_app():
+    subprocess.run(["streamlit", "run", "../st_app/nakalator_app.py"])
+"""
 
 @app.command()
 def main() -> None:
