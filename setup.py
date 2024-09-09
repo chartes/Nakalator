@@ -18,7 +18,7 @@ setup(
     name="nakalator",
     version=__version__,
     packages=['lib', 'lib.bridge', 'lib.utils'],
-    package_data={'': ['nakala_request.so']},
+    package_data={'': ['nakala_request.so', 'nakala_request.dylib']},
     include_package_data=True,
     py_modules=["nakalator"],
     install_requires=required,
@@ -29,11 +29,3 @@ setup(
     },
 )
 
-"""
-command to build the package:
-python setup.py 
-install the package:
-pip install .
-uninstall the package:
-pip uninstall nakalator
-"""

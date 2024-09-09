@@ -1,6 +1,7 @@
 import os
 import ctypes
 import json
+import platform
 
 
 def init_lib(so_file: str) -> dict:
@@ -12,6 +13,20 @@ def init_lib(so_file: str) -> dict:
     :return: the functions available in the library
     :rtype: dict
     """
+    system = platform.system()
+    lib_ext = ""
+
+    if system == "Linux":
+        lib_ext = ".so"
+    elif system == "Darwin":  # macOS
+        lib_ext = ".dylib"
+    else:
+        raise OSError(f"Unsupported OS: {system}")
+
+    so_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        f"nakala_request{lib_ext}"
+    )
     lib = ctypes.CDLL(so_file)
     # Define the functions signature
     lib.UploadFiles.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.POINTER(ctypes.c_char_p), ctypes.c_int]

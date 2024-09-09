@@ -1,4 +1,4 @@
-module lib/bridge
+module nakala_request
 
 go 1.22.0
 
