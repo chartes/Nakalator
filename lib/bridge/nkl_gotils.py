@@ -4,12 +4,10 @@ import json
 import platform
 
 
-def init_lib(so_file: str) -> dict:
+def init_lib() -> dict:
     """Initialize the go library to be used in python
     and define the functions available in the library.
 
-    :param so_file: the path to the shared object file
-    :type so_file: str
     :return: the functions available in the library
     :rtype: dict
     """
@@ -17,11 +15,12 @@ def init_lib(so_file: str) -> dict:
     lib_ext = ""
 
     if system == "Linux":
-        lib_ext = ".so"
+        lib_ext = "_linux.so"
     elif system == "Darwin":  # macOS
-        lib_ext = ".dylib"
+        lib_ext = "_macOS.dylib"
     else:
-        raise OSError(f"Unsupported OS: {system}")
+        print(f"Unsupported OS: {system}")
+        lib_ext = ".so"
 
     so_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
@@ -58,12 +57,7 @@ def encode_ctypes_upload_files(url: str,
     )
 
 
-NAKALA_BATCH_GO_LIB = init_lib(
-    os.path.join(
-        os.path.dirname(
-            os.path.abspath(__file__)
-        ), "nakala_request.so")
-)
+NAKALA_BATCH_GO_LIB = init_lib()
 
 
 # easy bridges to Python

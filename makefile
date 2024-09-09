@@ -79,7 +79,7 @@ build_go:
 	    go mod tidy; \
 	fi && \
 	echo "Building Go binary..." && \
-	go build -o nakala_request.so -buildmode=c-shared nakala_request.go && \
+	go build -o ./lib/bridge/nakala_request.so -buildmode=c-shared ./lib/bridge/nakala_request.go && \
 	echo "Go binary built successfully!"
 
 

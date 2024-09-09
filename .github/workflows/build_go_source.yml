@@ -1,0 +1,58 @@
+name: Build and Push Nakalator Go sources
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.22'
+
+      - name: Build Linux binary
+        run: |
+          go build -o lib/bridge/nakala_request_linux.so -buildmode=c-shared lib/bridge/nakala_request.go
+
+      - name: Commit and push Linux binary
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git add lib/bridge/nakala_request.so
+          git commit -m "Auto-update Linux binary"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.22'
+
+      - name: Build macOS binary
+        run: |
+          go build -o lib/bridge/nakala_request_macOS.dylib -buildmode=c-shared lib/bridge/nakala_request.go
+
+      - name: Commit and push macOS binary
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git add lib/bridge/nakala_request.dylib
+          git commit -m "Auto-update macOS binary"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
