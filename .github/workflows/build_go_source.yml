@@ -20,7 +20,8 @@ jobs:
 
       - name: Build Linux binary
         run: |
-          go build -o lib/bridge/nakala_request_linux.so -buildmode=c-shared lib/bridge/nakala_request.go
+          cd lib/bridge
+          go build -o ./nakala_request_linux.so -buildmode=c-shared ./nakala_request.go
 
       - name: Commit and push Linux binary
         run: |
@@ -45,7 +46,8 @@ jobs:
 
       - name: Build macOS binary
         run: |
-          go build -o lib/bridge/nakala_request_macOS.dylib -buildmode=c-shared lib/bridge/nakala_request.go
+          cd lib/bridge
+          go build -o ./nakala_request_macOS.dylib -buildmode=c-shared ./nakala_request.go
 
       - name: Commit and push macOS binary
         run: |
