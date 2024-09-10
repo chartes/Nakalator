@@ -26,14 +26,11 @@ jobs:
 
       - name: Build for ${{ matrix.platform }}
         run: |
-          if [[ "${{ matrix.platform }}" == "linux/amd64" ]]; then
-            cd ./lib/bridge/ && GOOS=linux GOARCH=amd64 go build -buildmode=c-shared -o nakala_request.so
-          elif [[ "${{ matrix.platform }}" == "macos/arm64" ]]; then
-            cd ./lib/bridge/ && GOOS=darwin GOARCH=arm64 go build -buildmode=c-shared -o nakala_request.dylib
+          if [ "${{ matrix.platform }}" = "linux/amd64" ]; then
+            cd lib/bridge && GOOS=linux GOARCH=amd64 go build -o nakala_request.so -buildmode=c-shared
           else
-            echo "Platform not supported"
-            exit 1
-
+            cd lib/bridge && GOOS=darwin GOARCH=arm64 go build -o nakala_request.dylib -buildmode=c-shared
+          fi
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
