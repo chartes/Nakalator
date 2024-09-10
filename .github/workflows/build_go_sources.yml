@@ -40,10 +40,6 @@ jobs:
           name: compiled-libs
           path: lib/bridge/
 
-  sync:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
