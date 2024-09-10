@@ -1,0 +1,59 @@
+name: Build Go Library
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [linux/amd64, macos/arm64]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.20
+
+      - name: Build for ${{ matrix.platform }}
+        run: |
+          if [[ "${{ matrix.platform }}" == "linux/amd64" ]]; then
+            GOOS=linux GOARCH=amd64 go build -buildmode=c-shared -o ./lib/bridge/nakala_request.so
+          elif [[ "${{ matrix.platform }}" == "macos/arm64" ]]; then
+            GOOS=darwin GOARCH=arm64 go build -buildmode=c-shared -o ./lib/bridge/nakala_request.dylib
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-libs
+          path: output/
+
+  sync:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Pull latest changes
+        run: git pull origin master
+
+      - name: Add and commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Update compiled libraries"
+
+      - name: Push changes
+        run: git push origin master
