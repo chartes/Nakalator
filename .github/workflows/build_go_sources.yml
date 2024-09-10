@@ -26,7 +26,7 @@ jobs:
 
       - name: Build for ${{ matrix.platform }}
         run: |
-          cd lib/bridge
+          cd ./lib/bridge
           if [[ "${{ matrix.platform }}" == "linux/amd64" ]]; then
             GOOS=linux GOARCH=amd64 go build -buildmode=c-shared -o nakala_request.so
           elif [[ "${{ matrix.platform }}" == "macos/arm64" ]]; then
