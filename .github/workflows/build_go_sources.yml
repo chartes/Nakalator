@@ -24,13 +24,15 @@ jobs:
         with:
           go-version: 1.22.0
 
+      - name: Install dependencies
+        run: cd lib/bridge && go mod tidy
+
       - name: Build for ${{ matrix.platform }}
         run: |
-          cd lib/bridge && go mod tidy
           if [ "${{ matrix.platform }}" = "linux/amd64" ]; then
-            GOOS=linux GOARCH=amd64 go build -o nakala_request.so
+            cd lib/bridge && go build -o nakala_request.so
           else
-            GOOS=darwin GOARCH=arm64 go build -o nakala_request.dylib
+            cd lib/bridge && go build -o nakala_request.dylib
           fi
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
