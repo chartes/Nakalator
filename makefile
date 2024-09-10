@@ -32,7 +32,7 @@ clean_pkg:
 
 upload_pkg_test: build_pkg
 	@echo "Upload package to test pypi..."
-	@$(VENV_ACTIVATE) && twine upload --repository testpypi dist/*
+	@$(VENV_ACTIVATE) && python3 -m twine upload --repository testpypi dist/*
 	@echo "Package uploaded successfully!"
 
 upload_pkg: build_pkg
@@ -54,7 +54,7 @@ create_venv:
 
 install_requirements: create_venv
 	@echo "Packages setup..."
-	@$(VENV_ACTIVATE) && $(PIP) install -r requirements.txt
+	@$(VENV_ACTIVATE) && $(PIP) install -r requirements-dev.txt
 
 run_tool:
 	@echo "Run tool with help command..."

@@ -29,7 +29,25 @@ Les avantages de Nakalator sont les suivants :
 
 ### Installation
 
-#### Méthode 1 recommandée
+#### Méthode 1 (recommandée)
+
+1. Installez le CLI via `pip` dans un environnement virtuel ou non : 
+
+```bash
+# (optionnel :) virtualenv -p python3.9 venv # exemple avec python3.9 mais vous pouvez choisir une autre version python3.10 par exemple
+# (optionnel :) source venv/bin/activate 
+pip install nakalator
+```
+
+2. Testez l'installation :
+
+```bash
+nakalator --help
+```
+
+Passer à la section [Marche à suivre](#marche-à-suivre) de Readme pour commencer à utiliser Nakalator.
+
+#### Méthode 2 
 
 1. Clonez le projet (via https ou ssh) :
 
@@ -57,7 +75,9 @@ pip install -e .
 nakalator --help
 ```
 
-#### Méthode 2 (pour le développement uniquement)
+Passer à la section [Marche à suivre](#marche-à-suivre) de Readme pour commencer à utiliser Nakalator.
+
+#### Méthode 3 (non requis pour les utilisateurs. Concerne uniquement le développement de nakalator)
 
 1. Clonez le projet :
 
@@ -66,16 +86,29 @@ git clone git@github.com:chartes/Nakalator.git
 cd Nakalator/
 ```
 
-2. Utilisez `make` pour installer le CLI (attention, `virtualenv` est utilisé par défaut pour construire l'environnement virtuel).
+2. Créer un environnement virtuel avec `virtualenv`, `pyenv`, etc. ici avec `virtualenv` par exemple :
 
 ```bash
-make all
+virtualenv -p python3.9 venv # exemple avec python3.9 mais vous pouvez choisir une autre version python3.10 par exemple
+source venv/bin/activate
+```
+
+3. Installez les dépendances :
+
+```bash
+pip install -r requirements-dev.txt
 ```
 
 3. Puis lancer l'outil pour tester :
 
 ```bash
 python3 nakalator.py --help
+```
+
+Si vous êtes dans le dossier `Nakalator/nakalator_workspace` :
+    
+```bash
+python3 ../nakalator.py --help
 ```
 
 ##### Commandes pour le développement très spécifiques
@@ -107,7 +140,7 @@ Cela créé alors un binaire `nakala_request.dylib` dans le dossier `lib/bridge/
 Attention 
 Dans ce dernier cas, l'installation préalable du langage Go est nécessaire.
 
-### Marche à suivre
+### Marche à suivre pour utiliser Nakalator
 
 1. Une fois l'installation effectuée, et lors de la première utilisation de l'outil, commencez par créer votre environnement de travail (nommé `nakalator_workspace`) :
 
