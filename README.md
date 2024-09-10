@@ -113,6 +113,9 @@ python3 ../nakalator.py --help
 
 ##### Commandes pour le développement très spécifiques
 
+> [!WARNING]
+> Le langage Go est nécessaire pour faire fonctionner les commandes suivantes.
+
 **Si et seulement si cela est nécéssaire** : pour compiler l'ensemble du projet (build, dist, etc. et hors sources GO) avant la distribution via Pypi depuis `Naklator/` :
 
 ```bash
@@ -121,24 +124,21 @@ make build_pkg VERSION_PKG=0.0.1-beta # exemple de version à spécifier
 
 **Si et seulement si cela est nécéssaire** : en cas de modification des sources Go, vous devez recompiler le binaire depuis `Naklator/` **pour Linux et pour MacOS** :
 
-sur linux : 
-
+sous linux : 
+  
 ```bash
 make build_go
 ```
 
 Cela créé alors un binaire `nakala_request.so` dans le dossier `lib/bridge/`
-
-sur MacOS :
-
+  
+sous MacOS :
+  
 ```bash
-maka build_go # même commande que pour linux
-```
-
+make build_go # même commande que pour linux
+ ```
+  
 Cela créé alors un binaire `nakala_request.dylib` dans le dossier `lib/bridge/`
-
-Attention 
-Dans ce dernier cas, l'installation préalable du langage Go est nécessaire.
 
 ### Marche à suivre
 
@@ -147,7 +147,7 @@ Dans ce dernier cas, l'installation préalable du langage Go est nécessaire.
 ```bash
 nakalator init
 ```
-Cela créera un dossier `nakalator_workspace/` dans votre répertoire courant. 
+La commande crée un dossier `nakalator_workspace/` dans votre répertoire courant.
 Il s'agit de votre espace de travail privilégié et toutes les commandes Nakalator doivent être exécutées à partir de ce dossier.
 Ce dossier contiendra : 
 
