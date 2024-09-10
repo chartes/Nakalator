@@ -140,7 +140,7 @@ Cela créé alors un binaire `nakala_request.dylib` dans le dossier `lib/bridge/
 Attention 
 Dans ce dernier cas, l'installation préalable du langage Go est nécessaire.
 
-### Marche à suivre pour utiliser Nakalator
+### Marche à suivre
 
 1. Une fois l'installation effectuée, et lors de la première utilisation de l'outil, commencez par créer votre environnement de travail (nommé `nakalator_workspace`) :
 
