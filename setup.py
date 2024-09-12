@@ -8,8 +8,12 @@ This script is used to build the package nakalator and install it.
 
 
 from setuptools import setup
+from pathlib import Path
 
-__version__ = '0.0.1-beta'
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
+
+__version__ = '0.0.2'
 
 # Lire les dépendances depuis requirements.txt
 with open("requirements.txt") as f:
@@ -24,6 +28,8 @@ setup(
     include_package_data=True,
     py_modules=["nakalator"],
     install_requires=required,
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     entry_points={
         "console_scripts": [
             "nakalator=nakalator:app",

@@ -1,6 +1,7 @@
 # Nakalator CLI
 
-![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue) ![os-versions](https://img.shields.io/badge/OS\/supported-Linux%20%7C%20MacOS%20Arm64-green)
+![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue) ![os-versions](https://img.shields.io/badge/OS\/supported-Linux%20%7C%20MacOS%20Arm64-green) ![PyPI - Version](https://img.shields.io/pypi/v/nakalator)
+
 
 <!-- Pypi pkg badge  -->
 
