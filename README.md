@@ -2,6 +2,7 @@
 
 ![python-versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C3.11-blue) ![os-versions](https://img.shields.io/badge/OS\/supported-Linux%20%7C%20MacOS%20Arm64-green)
 
+<!-- Pypi pkg badge  -->
 
 Nakalator est un outil en ligne de commande (CLI) conçu pour faciliter la création de dépôts et l'envoi de fichiers sur la plateforme [Nakala](https://nakala.fr/) <img src="./assets/nakala.png" width="20px">
 
@@ -142,7 +143,7 @@ Cela créé alors un binaire `nakala_request.dylib` dans le dossier `lib/bridge/
 
 ### Marche à suivre
 
-1. Une fois l'installation effectuée, et lors de la première utilisation de l'outil, commencez par créer votre environnement de travail (nommé `nakalator_workspace`) :
+1. Une fois l'installation effectuée, et lors de la première utilisation de l'outil, commencez par créer votre environnement de travail (nommé `nakalator_workspace/`) via la commande suivante :
 
 ```bash
 nakalator init
@@ -161,13 +162,13 @@ en test (https://test.nakala.fr/) ou en production (https://nakala.fr/).
 
 2. Commencer par remplir le fichier `credentials.yml` avec les informations de connexion à Nakala (clés API).
 Pour l'instance de test, des clés d'API sont disponibles sur la page d'accueil de l'instance de test de Nakala (https://test.nakala.fr/).
-Pour l'instance de production Nakala, vous devez disposer d'un compte HumanID auprès d'Huma-Num et demander des clés d'API à l'équipe Nakala.
+Pour l'instance de production Nakala, vous devez disposer d'un compte HumanID auprès d'Huma-Num et effectuer une demande d'accès à Nakala.
 
 3. L'organisation des fichiers de métadonnées YAML et des fichiers à envoyer est cruciale. 
 Le fichier pivot YAML contient les métadonnées de la donnée à envoyer sur Nakala et les liens vers les fichiers à envoyer.
 Plusieurs cas d'usage sont possibles, les plus courants sont :
 
-- **Création d'une donnée sur Nakala (rattachée ou non à une collection existante ou nouvelle) avec des fichiers associés (par exemple, des images)** :
+- **Création d'une donnée sur Nakala (rattachée ou non à une collection existante ou à créer) avec des fichiers associés (par exemple, des images)** :
   1. Déposez votre fichier YAML (préalablement rempli) dans le dossier `metadatas/` (par exemple `metadatas/mon_projet.yml`) ;
   2. Déposez vos images dans un dossier spécifique dans `data/` (par exemple `data/mon_projet/image1.jpg`, `data/mon_projet/image2.jpg`, etc.).
   
@@ -184,8 +185,8 @@ Plusieurs cas d'usage sont possibles, les plus courants sont :
                  ├── image2.jpg
   ```
 
-- **Création de plusieurs données (envoi en lot) sur Nakala (rattachées ou non à une collection existante ou nouvelle) avec des fichiers associés (par exemple, des images) pour chacune d'elles** :
-  1. Déposez vos fichiers YAML (préalablement remplis) dans sous-dossier situé dans le dossier `metadatas/` (par exemple `metadatas/mon_projet/mon_projet_1.yml`, `metadatas/mon_projet/mon_projet_2.yml`) ;
+- **Création de plusieurs données (envoi en lot) sur Nakala (rattachées ou non à une collection existante ou à créer) avec des fichiers associés (par exemple, des images) pour chacune d'elles** :
+  1. Déposez vos fichiers YAML (préalablement remplis) dans un sous-dossier situé dans le dossier `metadatas/` (par exemple `metadatas/mon_projet/mon_projet_1.yml`, `metadatas/mon_projet/mon_projet_2.yml`) ;
   2. Déposez vos images dans des sous-dossiers spécifiques placés dans un sous-dossier (portant le nom du projet) de `data/` (par exemple `data/mon_projet/mon_projet_1/image1.jpg`, `data/mon_projet/mon_projet_1/image2.jpg`, `data/mon_projet/mon_projet_2/image1.jpg`, `data/mon_projet/mon_projet_2/image2.jpg`, etc.).
   
   Voici un exemple de structure de dossiers pour ce cas d'usage :
